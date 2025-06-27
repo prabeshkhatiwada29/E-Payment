@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
+  <h2 class="text-2xl font-semibold mb-4">eSewa Payment for {{ book.title }}</h2>
+
+  <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" class="space-y-4">
+    
+    <div>
+      <label class="block text-sm font-medium">Amount</label>
+      <input type="text" id="amount" name="amount" value="{{ amount }}" class="w-full border rounded px-3 py-2" required>
+    </div>
+
+    <input type="hidden" name="tax_amount" value="10">
+    <input type="hidden" name="product_service_charge" value="0">
+    <input type="hidden" name="product_delivery_charge" value="0">
+
+    <div>
+      <label class="block text-sm font-medium">Total Amount</label>
+      <input type="text" name="total_amount" value="{{ total_amount }}" class="w-full border rounded px-3 py-2" required>
+    </div>
+
+    <input type="hidden" name="transaction_uuid" value="{{ transaction_uuid }}">
+    <input type="hidden" name="product_code" value="{{ product_code }}">
+    <input type="hidden" name="success_url" value="http://localhost:8000/esewa/success/">
+    <input type="hidden" name="failure_url" value="http://localhost:8000/esewa/failure/">
+    
+    <!-- ✅ This line was broken before -->
+    <input type="hidden" name="signed_field_names" value="{{ signed_field_names }}">
+    <input type="hidden" id="signature" name="signature" value="{{ signature }}" required>
+
+
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+      Pay with eSewa
+    </button>
+  </form>
+</div>
+
+{% endblock %}
