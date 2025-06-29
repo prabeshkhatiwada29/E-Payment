@@ -1,38 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded-lg">
-  <h2 class="text-2xl font-semibold mb-4">eSewa Payment for {{ book.title }}</h2>
+<div class="max-w-2xl mx-auto mt-12 p-8 bg-white shadow-lg rounded-2xl">
+  <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+    💳 eSewa Payment for "{{ book.title }}"
+  </h2>
 
-  <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" class="space-y-4">
-    
+  <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" class="space-y-6">
+
+    <!-- Amount -->
     <div>
-      <label class="block text-sm font-medium">Amount</label>
-      <input type="text" id="amount" name="amount" value="{{ amount }}" class="w-full border rounded px-3 py-2" required>
+      <label for="amount" class="block text-sm font-semibold text-gray-600 mb-1">Amount</label>
+      <input type="text" id="amount" name="amount" value="{{ amount }}" readonly 
+             class="w-full px-4 py-2 border rounded-lg shadow-sm bg-gray-50 focus:ring-2 focus:ring-green-400" required>
     </div>
 
+    <!-- Total Amount -->
+    <div>
+      <label for="total_amount" class="block text-sm font-semibold text-gray-600 mb-1">Total Amount</label>
+      <input type="text" id="total_amount" name="total_amount" value="{{ total_amount }}" readonly
+             class="w-full px-4 py-2 border rounded-lg shadow-sm bg-gray-50 focus:ring-2 focus:ring-green-400" required>
+    </div>
+
+    <!-- Hidden Fields -->
     <input type="hidden" name="tax_amount" value="10">
     <input type="hidden" name="product_service_charge" value="0">
     <input type="hidden" name="product_delivery_charge" value="0">
-
-    <div>
-      <label class="block text-sm font-medium">Total Amount</label>
-      <input type="text" name="total_amount" value="{{ total_amount }}" class="w-full border rounded px-3 py-2" required>
-    </div>
-
     <input type="hidden" name="transaction_uuid" value="{{ transaction_uuid }}">
     <input type="hidden" name="product_code" value="{{ product_code }}">
     <input type="hidden" name="success_url" value="http://localhost:8000/esewa/success/">
     <input type="hidden" name="failure_url" value="http://localhost:8000/esewa/failure/">
-    
-    <!-- ✅ This line was broken before -->
     <input type="hidden" name="signed_field_names" value="{{ signed_field_names }}">
     <input type="hidden" id="signature" name="signature" value="{{ signature }}" required>
 
-
-    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-      Pay with eSewa
-    </button>
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="bg-green-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-green-700 shadow transition duration-200">
+        ✅ Pay with eSewa
+      </button>
+    </div>
   </form>
 </div>
 
